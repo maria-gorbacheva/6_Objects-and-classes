@@ -1,13 +1,18 @@
 
-
 class Track:
 
     def __init__(self, track_name, track_duration):
         self.track_name = track_name
-        self.track_duration = int(track_duration)  #in minutes
+        self.track_duration = int(track_duration)  # in minutes
 
-    def show(self):
-        print(f'\t{self.track_name} - {self.track_duration}')
+    def __gt__(self, other):
+        if not isinstance(other, Track):
+            print('один из объектов не класса Track')
+            return
+        return self.track_duration > other.track_duration
+
+    def __str__(self):
+        return f'\t{self.track_name} - {self.track_duration}'
 
 
 class Album:
@@ -15,12 +20,17 @@ class Album:
     album_author = 'Default'
     track_list = []
 
+    def __str__(self):
+        return f'Album: {self.album_name} by {self.album_author}\n' + self.get_tracks()
+
     def get_tracks(self):
+        lists = ''
         for track in self.track_list:
             if isinstance(track, Track):
-                track.show()
+                lists = lists + str(track) + '\n'
             else:
-                print('Unknown track format')
+                return 'Unknown track format'
+        return lists
 
     def add_track(self, new_track):
         # Не смотря на отсутствие конструктора класса, в отличие от примера, приведенного на уроке,
@@ -36,7 +46,7 @@ class Album:
 
 album_1 = Album()
 album_1.album_name = 'Sonata #14'
-album_1.album_author = 'Bethoven'
+album_1.album_author = 'Beethoven'
 album_1.track_list = [Track('part_1', 4),
                       Track('part_2', 5),
                       Track('part_3', 3)]
@@ -55,7 +65,16 @@ albums_collection = [album_1, album_2]
 def all_albums_duration(albums_list):
     for album in albums_list:
         print(f'Альбом {album.album_name} длится: {album.get_duration()}')
-        album.get_tracks()
 
 
-all_albums_duration(albums_collection)
+# album_1.add_track(Track('new', 5))
+# all_albums_duration(albums_collection)
+
+track1 = Track('Bohemian rhapsody', 6)
+track2 = Track('The show must go on', 4)
+print(track2)
+print(album_1)
+
+print(track2 > track1)
+
+

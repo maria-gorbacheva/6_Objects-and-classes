@@ -1,6 +1,7 @@
 class Animals:
     name = 'Без имени'
     weight = 0.1  # in kg
+    voice = ''
 
     def __init__(self, name, weight):
         self.name = name
@@ -10,65 +11,50 @@ class Animals:
         self.weight += food
         return self
 
+    def voice_(self):
+        print(f'{self.name} {self.voice}')
 
-class Birds:
+
+class Birds(Animals):
     eggs = 0
 
     def get_eggs(self, eggs):
         self.eggs = eggs
 
 
-class Mammals:
+class Mammals(Animals):
     milk = 0
 
     def get_milk(self, milk):
         self.milk = milk
 
 
-class Geese(Animals, Birds):
-    voice_ = 'гагочет'
-
-    def voice(self):
-        print(self.name, self.voice_)
+class Geese(Birds):
+    voice = 'гагочет'
 
 
-class Cows(Animals, Mammals):
-    voice_ = 'мычит'
-
-    def voice(self):
-        print(self.name, self.voice_)
+class Cows(Mammals):
+    voice = 'мычит'
 
 
 class Sheep(Animals):
     wool = 2  # in kg
-    voice_ = 'блеет'
+    voice = 'блеет'
 
     def get_wool(self, wool):
         self.wool = wool
 
-    def voice(self):
-        print(self.name, self.voice_)
+
+class Chicken(Birds):
+    voice = 'кококо'
 
 
-class Chicken(Animals, Birds):
-    voice_ = 'кококо'
-
-    def voice(self):
-        print(self.name, self.voice_)
+class Goats(Mammals):
+    voice = 'млеет'
 
 
-class Goats(Animals, Mammals):
-    voice_ = 'млеет'
-
-    def voice(self):
-        print(self.name, self.voice_)
-
-
-class Ducks(Animals, Birds):
-    voice_ = 'крякает'
-
-    def voice(self):
-        print(self.name, self.voice_)
+class Ducks(Birds):
+    voice = 'крякает'
 
 
 animals_dict = {'goose_grey': Geese('Серый', 3),
@@ -88,6 +74,7 @@ def feed(animals, class_type, food):
     for animal in animals.values():
         if isinstance(animal, class_type):
             animal.eat(food)
+            print(f'Накормили всех {class_type}')
 
 
 def eggs(animals, class_type, eggs_num):
@@ -103,7 +90,7 @@ animals_dict['sheep_barashek'].get_wool(3)
 
 animals_dict['goat_roga'].get_milk(5)
 
-animals_dict['goat_roga'].get_milk(6)
+animals_dict['duck_kriakva'].get_eggs(6)
 
 
 def total_weight(dictionary):
@@ -113,7 +100,7 @@ def total_weight(dictionary):
     print(f'Суммарный вес: {weight}')
 
 
-def heviest_animal(dictionary):
+def heaviest_animal(dictionary):
     """
     Function finds out the heaviest animal in dictionary, prints its name and its weight.
     Weakness: if there are two or more animals with the same max weight,
@@ -131,5 +118,6 @@ def heviest_animal(dictionary):
     return max_animal_name, max_weight
 
 
-heviest_animal(animals_dict)
+heaviest_animal(animals_dict)
 total_weight(animals_dict)
+animals_dict['goose_grey'].voice_()
